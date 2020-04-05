@@ -50,7 +50,7 @@ export class TodoItemCompletedInputCheckboxComponent {
 @Component({
     template: `
         <div>
-            <button (click)='handleClickAll()' >All</button>
+            <button #id1 (click)='handleClickAll()' >All</button>
             <button (click)='handleClickActive()' >Active</button>
             <button (click)='handleClickCompleted()' >Completed</button>
         </div>
@@ -65,7 +65,8 @@ export class FilterItemsInputButtonComponent {
 
 
     // how can i combine these func into one func and reuse that in buttons?
-    handleClickAll() {
+    // just pass the parameter directly.. eg: handleClickAll("All")
+    handleClickAll($event: any) {
         this.todoStoreService.updateVisibiltyByFilter('All');
     }
     handleClickActive() {
@@ -101,7 +102,6 @@ export class ClearCompletedTodoInputButtonComponent {
 @Component({
     template: `
             <button 
-                [value]='idx'
                 (click)='handleRemoveItem()' >X</button>
     `,
     selector: `app-remove-item-button`,
@@ -110,6 +110,9 @@ export class RemoveItemInputButtonComponent {
 
     // how to get it properly?
     // instead of  `[value]` should i use somethig else?
+    // we do not need to add the attribute to button inside this component because
+    // when you use this syntax `<app-remove-item-button [idx]='i'>` it already set
+    // the variable inside component..
     @Input()
     idx: number;
 
