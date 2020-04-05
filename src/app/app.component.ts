@@ -55,9 +55,9 @@ export class TodoItemCompletedInputCheckboxComponent {
             <button (click)='handleClickCompleted()' >Completed</button>
         </div>
     `,
-    selector: `app-filter-items`,
+    selector: `app-filter-items-input-button`,
 })
-export class FilterItemsComponent {
+export class FilterItemsInputButtonComponent {
 
     constructor(
         public todoStoreService: TodoStoreService, 
@@ -72,6 +72,27 @@ export class FilterItemsComponent {
     }
     handleClickCompleted() {
         this.todoStoreService.updateVisibiltyByFilter('Completed');
+    }
+
+}
+
+@Component({
+    template:`
+        <div>
+            <button (click)='handleClearCompleted()' >Clear Completed</button>
+        </div>
+    `,
+    selector: `app-clear-completed-todo-button`,
+})
+export class ClearCompletedTodoInputButtonComponent {
+
+    constructor(
+        public todoStoreService: TodoStoreService, 
+    ){}
+
+
+    handleClearCompleted() {
+        this.todoStoreService.clearCompleted();
     }
 
 }

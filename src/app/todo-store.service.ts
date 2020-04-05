@@ -39,43 +39,53 @@ export class TodoStoreService {
     }
 
     updateVisibiltyByFilter(filter: string) {
-        switch (filter) {
-            case 'All': {
-                this.todoList.forEach((todo) => {
+        this.todoList.forEach((todo) => {
+            switch (filter) {
+                case 'All': {
                     todo.isVisible = true
                     console.log('handleClickAll')
                     console.log(todo)
-                });
 
-                break;
-            }
-            case 'Active': {
-                this.todoList.forEach((todo) => {
-                    if (!todo.isCompleted) {
-                        todo.isVisible = true;
-                    } else {
-                        todo.isVisible = false;
-                    }
-                    console.log('handleClickActive');
-                    console.log(todo);
-                });
-                
-                break;
-            }
-            case 'Completed': {
-                this.todoList.forEach((todo) => {
-                    if (todo.isCompleted) {
-                        todo.isVisible = true;
-                    } else {
-                        todo.isVisible = false;
-                    }
-                    console.log('handleClickCompleted');
-                    console.log(todo);
-                });
+                    break;
+                }
+                case 'Active': {
+                        if (!todo.isCompleted) {
+                            todo.isVisible = true;
+                        } else {
+                            todo.isVisible = false;
+                        }
+                        console.log('handleClickActive');
+                        console.log(todo);
 
-                break;
+                    break;
+                }
+                case 'Completed': {
+                        if (todo.isCompleted) {
+                            todo.isVisible = true;
+                        } else {
+                            todo.isVisible = false;
+                        }
+                        console.log('handleClickCompleted');
+                        console.log(todo);
+
+                    break;
+                }
+
             }
-        }
+        });
+    }
+
+
+
+    clearCompleted() {
+        console.log(this.todoList);
+        this.todoList.forEach((todo, idx) => {
+            if (todo.isCompleted) {
+                this.todoList.splice(idx, 1);
+            }
+        });
+        console.log('clearCompleted');
+        console.log(this.todoList);
     }
 
 }
