@@ -88,4 +88,10 @@ export class TodoStoreService {
         console.log(this.todoList);
     }
 
+    removeitemFromList(idx: number) {
+        this.todoList.splice(idx, 1);
+        console.log('removeitemFromList');
+        console.log(this.todoList);
+    }
+
 }

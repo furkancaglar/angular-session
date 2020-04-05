@@ -42,13 +42,13 @@ export class TodoItemCompletedInputCheckboxComponent {
     @Output()
     check = new EventEmitter<boolean>();
 
-    handleClick(){
+    handleClick() {
         this.check.next(!this.isChecked)
     }
 }
 
 @Component({
-    template:`
+    template: `
         <div>
             <button (click)='handleClickAll()' >All</button>
             <button (click)='handleClickActive()' >Active</button>
@@ -60,10 +60,11 @@ export class TodoItemCompletedInputCheckboxComponent {
 export class FilterItemsInputButtonComponent {
 
     constructor(
-        public todoStoreService: TodoStoreService, 
-    ){}
+        public todoStoreService: TodoStoreService,
+    ) { }
 
 
+    // how can i combine these func into one func and reuse that in buttons?
     handleClickAll() {
         this.todoStoreService.updateVisibiltyByFilter('All');
     }
@@ -77,7 +78,7 @@ export class FilterItemsInputButtonComponent {
 }
 
 @Component({
-    template:`
+    template: `
         <div>
             <button (click)='handleClearCompleted()' >Clear Completed</button>
         </div>
@@ -87,12 +88,38 @@ export class FilterItemsInputButtonComponent {
 export class ClearCompletedTodoInputButtonComponent {
 
     constructor(
-        public todoStoreService: TodoStoreService, 
-    ){}
+        public todoStoreService: TodoStoreService,
+    ) { }
 
 
     handleClearCompleted() {
         this.todoStoreService.clearCompleted();
+    }
+
+}
+
+@Component({
+    template: `
+            <button 
+                [value]='idx'
+                (click)='handleRemoveItem()' >X</button>
+    `,
+    selector: `app-remove-item-button`,
+})
+export class RemoveItemInputButtonComponent {
+
+    // how to get it properly?
+    // instead of  `[value]` should i use somethig else?
+    @Input()
+    idx: number;
+
+    constructor(
+        public todoStoreService: TodoStoreService,
+    ) { }
+
+
+    handleRemoveItem() {
+        this.todoStoreService.removeitemFromList(this.idx);
     }
 
 }
@@ -113,6 +140,9 @@ export class ClearCompletedTodoInputButtonComponent {
                     <span *ngIf="!todo.isCompleted">
                         {{ todo.title }}
                     </span>
+                    <span>
+                        <app-remove-item-button [idx]='i'></app-remove-item-button>
+                    </span>
                 </div>
             </li>
         </ul>
@@ -130,7 +160,7 @@ export class TodoListComponent {
         public todoStoreService: TodoStoreService,
     ) { }
 
-    handleCheck(idx: number, $event: boolean){
+    handleCheck(idx: number, $event: boolean) {
         this.todoStoreService.updateIsChecked(idx, $event);
     }
 
