@@ -48,20 +48,51 @@ export class TodoItemCompletedInputCheckboxComponent {
 }
 
 @Component({
+    template:`
+        <div>
+            <button (click)='handleClickAll()' >All</button>
+            <button (click)='handleClickActive()' >Active</button>
+            <button (click)='handleClickCompleted()' >Completed</button>
+        </div>
+    `,
+    selector: `app-filter-items`,
+})
+export class FilterItemsComponent {
+
+    constructor(
+        public todoStoreService: TodoStoreService, 
+    ){}
+
+
+    handleClickAll() {
+        this.todoStoreService.updateVisibiltyByFilter('All');
+    }
+    handleClickActive() {
+        this.todoStoreService.updateVisibiltyByFilter('Active');
+    }
+    handleClickCompleted() {
+        this.todoStoreService.updateVisibiltyByFilter('Completed');
+    }
+
+}
+
+@Component({
     template: `
         <ul>
             <li aria-label="item" *ngFor="let todo of todoList; let i = index">
-                <app-todo-item-completed-input-checkbox 
-                    (check)="handleCheck(i ,$event)"
-                    [isChecked]='todo.isCompleted'>
-                </app-todo-item-completed-input-checkbox>
+                <div *ngIf="todo.isVisible">
+                    <app-todo-item-completed-input-checkbox 
+                        (check)="handleCheck(i ,$event)"
+                        [isChecked]='todo.isCompleted'>
+                    </app-todo-item-completed-input-checkbox>
 
-                <span *ngIf="todo.isCompleted" style="text-decoration: line-through;">
-                    {{ todo.title }}
-                </span>
-                <span *ngIf="!todo.isCompleted">
-                    {{ todo.title }}
-                </span>
+                    <span *ngIf="todo.isCompleted" style="text-decoration: line-through;">
+                        {{ todo.title }}
+                    </span>
+                    <span *ngIf="!todo.isCompleted">
+                        {{ todo.title }}
+                    </span>
+                </div>
             </li>
         </ul>
     `,
